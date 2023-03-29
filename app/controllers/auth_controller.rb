@@ -15,7 +15,7 @@ class AuthController < ApplicationController
 
     AccessGrant.prune!
     create_hash = {
-      client: application,
+      oauth_client: application,
       state: params[:state]
     }
     access_grant = current_user.access_grants.create(create_hash)
@@ -25,15 +25,14 @@ class AuthController < ApplicationController
   # POST
   def access_token
     access_grant = AccessGrant.find_by_code(params[:code])
-    application = access_grant.client
-
-    if application.nil?
-      render :json => {:error => "Could not find application"}
+    if access_grant.nil?
+      render :json => {:error => "Could not authenticate with the access grant code"}
       return
     end
 
-    if access_grant.nil?
-      render :json => {:error => "Could not authenticate access code"}
+    application = access_grant.oauth_client
+    if application.nil?
+      render :json => {:error => "Could not find OAuth application"}
       return
     end
 
@@ -49,7 +48,7 @@ class AuthController < ApplicationController
   protected
 
   def application
-    @application ||= Client.find_by_app_id(params[:client_id])
+    @application ||= OauthClient.find_by_app_id(params[:oauth_client_id])
   end
 
   private
@@ -58,8 +57,7 @@ class AuthController < ApplicationController
     if params[:oauth_token]
       access_grant = AccessGrant.where(access_token: params[:oauth_token]).take
       if access_grant.user
-        # Devise sign in
-        sign_in access_grant.user
+        sign_in access_grant.user # Devise sign in
       end
     end
   end

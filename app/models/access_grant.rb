@@ -1,6 +1,6 @@
 class AccessGrant < ApplicationRecord
   belongs_to :user
-  belongs_to :client
+  belongs_to :oauth_client
 
   before_create :generate_tokens
 
@@ -18,7 +18,7 @@ class AccessGrant < ApplicationRecord
 
   # Class method to find access grants by code and client ID
   def self.authenticate(code, application_id)
-    AccessGrant.where("code = ? AND client_id = ?", code, application_id).first
+    AccessGrant.where("code = ? AND oauth_client_id = ?", code, application_id).first
   end
 
   # Instance method to dynamically define the redirect URI after an access grant is issued.

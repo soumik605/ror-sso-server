@@ -10,9 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_29_073205) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_29_075550) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "access_grants", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "oauth_client_id", null: false
+    t.string "code"
+    t.string "access_token"
+    t.string "refresh_token"
+    t.datetime "access_token_expires_at"
+    t.string "state"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["oauth_client_id"], name: "index_access_grants_on_oauth_client_id"
+    t.index ["user_id"], name: "index_access_grants_on_user_id"
+  end
 
   create_table "oauth_clients", force: :cascade do |t|
     t.string "name"
@@ -34,4 +48,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_29_073205) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "access_grants", "oauth_clients"
+  add_foreign_key "access_grants", "users"
 end
