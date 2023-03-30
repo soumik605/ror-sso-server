@@ -1,4 +1,6 @@
 class OauthClientsController < ApplicationController
+  before_action :authenticate_user!
+
   before_action :set_oauth_client, only: %i[ show edit update destroy ]
 
   # GET /oauth_clients or /oauth_clients.json
