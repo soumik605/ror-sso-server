@@ -12,6 +12,7 @@
   %body
     %main.container.mx-auto.mt-28.px-5.flex
       = yield
+      = link_to 'Logout', destroy_user_session_path, method: :delete, data: { turbo: 'false' }
 
     %footer
       %p.notice= notice
