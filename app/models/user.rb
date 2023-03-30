@@ -6,7 +6,7 @@ class User < ApplicationRecord
 
   has_many :access_grants, dependent: :delete_all
 
-  def jwt_payload
+  def oauth_payload
     _hash = {
       provider: 'sso',
       id: self.id,
