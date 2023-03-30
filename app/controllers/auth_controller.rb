@@ -1,6 +1,7 @@
 class AuthController < ApplicationController
   # This is our new function that comes before Devise's one
-  before_action :authenticate_user_from_token!, :except => [:access_token]
+
+  before_action :authenticate_oauth_user!, :except => [:access_token]
   skip_before_action :verify_authenticity_token, :only => [:access_token]
 
   def authorize
@@ -48,17 +49,23 @@ class AuthController < ApplicationController
   protected
 
   def application
-    @application ||= OauthClient.find_by_app_id(params[:oauth_client_id])
+    @application ||= OauthClient.find_by_app_id(params[:client_id])
   end
 
   private
 
-  def authenticate_user_from_token!
+  def authenticate_oauth_user!
     if params[:oauth_token]
       access_grant = AccessGrant.where(access_token: params[:oauth_token]).take
       if access_grant.user
         sign_in access_grant.user # Devise sign in
       end
+    elsif params[:redirect_uri] and params[:redirect_uri].include? 'type'
+      type = params[:redirect_uri].split("type=")[1]
+      redirect_to new_user_registration_path(type: type)
+    else
+      authenticate_user!
     end
   end
+
 end
