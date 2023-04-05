@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  namespace :admin_user do
+    resources :users
+  end
+  
   get 'dashboard/index'
 
   resources :oauth_clients

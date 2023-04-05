@@ -1,0 +1,13 @@
+.col-span-3{"data-controller" => "modal", "data-modal-allow-background-close" => "true", "data-modal-disable-backdrop" => "false" }
+	.divide-y.go-hover-card.cursor-pointer.h-full{ "data-action" => "click->modal#open" }
+		.flex.gap-3.items-center.pb-4
+			.flex.items-center.gap-2
+				.text-sm.font-semibold= user.try(:email)
+					
+	.hidden.fadeIn.fixed.inset-0.flex.items-center.justify-end.backdrop-brightness-50{"data-action" => "click->modal#closeBackground keyup@window->modal#closeWithKeyboard", "data-modal-target" => "container", :style => "z-index: 9999;"}
+		.h-screen.w-full.max-w-lg.relative
+			.bg-white.rounded-l-lg.h-full.overflow-y-auto.flex.flex-col.shadow
+				.px-4.py-3.border-b
+					%h3.text-xl.font-semibold.text-slate-800
+						Edit User
+				= render 'admin_user/users/form', user: user
