@@ -14,7 +14,6 @@
       = yield
       = link_to 'Logout', destroy_user_session_path, method: :delete, data: { turbo: 'false' }
 
-    %footer
-      %p.notice= notice
-      %p.alert= alert
+    #flash.flash
+      = render 'layouts/flash_notifications'
 

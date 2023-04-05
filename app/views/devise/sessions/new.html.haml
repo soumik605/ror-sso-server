@@ -1,17 +1,19 @@
-%h2 Log in
-= form_for(resource, as: resource_name, url: session_path(resource_name), data: { turbo: 'false' }) do |f|
-  .field
-    = f.label :email
-    %br/
-    = f.email_field :email, autofocus: true, autocomplete: "email"
-  .field
-    = f.label :password
-    %br/
-    = f.password_field :password, autocomplete: "current-password"
-  - if devise_mapping.rememberable?
-    .field
-      = f.check_box :remember_me
-      = f.label :remember_me
-  .actions
-    = f.submit "Log in"
-= render "devise/shared/links"
+.flex.justify-center.w-full
+  .rounded-lg.border.border-slate-200.bg-white.p-4.pb-10.w-96
+    .text-2xl.text-center.font-semibold.pb-8.font-sans Login
+    = form_for(resource, as: resource_name, url: session_path(resource_name), class: 'mt-8 space-y-6', data: { turbo: 'false' }) do |f|
+      %input{:name => "remember", :type => "hidden", :value => "true"}
+        .py-2
+          %label.py-2.text-xs.text-slate-600{:for => "email"} Email / Mobile No
+          = f.text_field :email, autofocus: true, autocomplete: "email", class: 'appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'
+        .py-2{"data-controller" => "password-visibility"}
+          %label.py-2.text-xs.text-slate-600{:for => "password"} Password
+          .flex.items-center.justify-between
+            = f.password_field :password, {autocomplete: "current-password", "data-password-visibility-target" => "input", "spellcheck" => "false", class: 'appearance-none relative block w-full pl-3 pr-9 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'}
+            =button_tag "<i class='mr-2 fa fa-eye hidden', data-password-visibility-target = 'icon' ></i> <i class='mr-2 fa fa-eye-slash', data-password-visibility-target = 'icon' ></i>".html_safe, { class: "-ml-20 z-20 text-slate-600", "data-action" => "password-visibility#toggle", :role => "button", :type => "button", :tabindex => "0"}
+        
+        .text-sm.text-right.py-2
+          %a.text-xs.font-medium.text-slate-600.hover:text-orange-500{:href => "#"} Forgot your password?
+      %div
+        %button.w-full.text-white.bg-blue-700.hover:bg-blue-800.focus:ring-4.focus:outline-none.focus:ring-blue-300.font-medium.rounded-lg.text-sm.px-5.py-2.5.text-center.dark:bg-blue-600.dark:hover:bg-blue-700.dark:focus:ring-blue-800
+          Login
