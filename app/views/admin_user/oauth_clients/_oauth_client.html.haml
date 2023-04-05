@@ -1,0 +1,14 @@
+.col-span-3{"data-controller" => "modal", "data-modal-allow-background-close" => "true", "data-modal-disable-backdrop" => "false" }
+	.divide-y.px-4.py-3.rounded-lg.border.border-slate-200.bg-white.transform.transition.duration-500.hover:scale-105.hover:shadow-lg.cursor-pointer.h-full{ "data-action" => "click->modal#open" }
+		.pb-4
+			.text-sm.font-semibold= oauth_client.try(:name)
+			.text-sm.font-semibold= oauth_client.try(:app_id)
+			.text-sm.font-semibold= oauth_client.try(:app_secret)
+					
+	.hidden.fadeIn.fixed.inset-0.flex.items-center.justify-end.backdrop-brightness-50{"data-action" => "click->modal#closeBackground keyup@window->modal#closeWithKeyboard", "data-modal-target" => "container", :style => "z-index: 9999;"}
+		.h-screen.w-full.max-w-lg.relative
+			.bg-white.rounded-l-lg.h-full.overflow-y-auto.flex.flex-col.shadow
+				.px-4.py-3.border-b
+					%h3.text-xl.font-semibold.text-slate-800
+						Edit Oauth Client
+				= render 'admin_user/oauth_clients/form', oauth_client: oauth_client

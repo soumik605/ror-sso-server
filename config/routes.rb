@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   namespace :admin_user do
-    resources :users
+    resources :users, only: [:index, :create, :update, :destroy]
+    resources :oauth_clients, only: [:index, :create, :update, :destroy]
   end
   
   get 'dashboard/index'
