@@ -1,8 +1,17 @@
-.col-span-3{"data-controller" => "modal", "data-modal-allow-background-close" => "true", "data-modal-disable-backdrop" => "false" }
-	.divide-y.go-hover-card.cursor-pointer.h-full{ "data-action" => "click->modal#open" }
-		.flex.gap-3.items-center.pb-4
+.col-span-3.rounded-lg.border.border-slate-200.bg-white.p-4.pb-10{"data-controller" => "modal", "data-modal-allow-background-close" => "true", "data-modal-disable-backdrop" => "false" }
+	%div{ "data-action" => "click->modal#open" }
+		.pb-4
 			.flex.items-center.gap-2
-				.text-sm.font-semibold= user.try(:email)
+				.text-lg.font-semibold= user.try(:name)
+				- if user.is_admin?
+					%svg.w-4.h-4.text-green-500.dark:text-green-400.flex-shrink-0{class: "mr-1.5", fill: "currentColor", viewbox: "0 0 20 20", xmlns: "http://www.w3.org/2000/svg"}
+						%path{"clip-rule" => "evenodd", d: "M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z", "fill-rule" => "evenodd"}
+			.py-2
+				.text-sm.font-semibold.text-slate-500= user.try(:email)
+				.text-sm.font-semibold.text-slate-500= user.try(:organization_name)
+		%ul.max-w-md.space-y-1.text-gray-500.list-disc.list-inside
+			- user.user_oauth_clients.each do |client|
+				%li= client.try(:name)
 					
 	.hidden.fadeIn.fixed.inset-0.flex.items-center.justify-end.backdrop-brightness-50{"data-action" => "click->modal#closeBackground keyup@window->modal#closeWithKeyboard", "data-modal-target" => "container", :style => "z-index: 9999;"}
 		.h-screen.w-full.max-w-lg.relative

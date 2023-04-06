@@ -1,21 +1,26 @@
-%h2 Sign up
-= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
-  = render "devise/shared/error_messages", resource: resource
-  .field
-    = f.label :email
-    %br/
-    = f.email_field :email, autofocus: true, autocomplete: "email"
-  .field
-    = f.label :password
-    - if @minimum_password_length
-      %em
-        (#{@minimum_password_length} characters minimum)
-    %br/
-    = f.password_field :password, autocomplete: "new-password"
-  .field
-    = f.label :password_confirmation
-    %br/
-    = f.password_field :password_confirmation, autocomplete: "new-password"
-  .actions
-    = f.submit "Sign up"
-= render "devise/shared/links"
+.flex.justify-center.w-full
+	.rounded-lg.border.border-slate-200.bg-white.p-4.pb-10.w-96
+		.text-2xl.text-center.font-semibold.pb-8.font-sans Sign up
+		= render "devise/shared/error_messages", resource: resource
+		= form_for(resource, as: resource_name, url: registration_path(resource_name), class: 'mt-8 space-y-6', data: { turbo: 'false' }) do |f|        
+			.py-2
+				%label.py-2.text-xs.text-slate-600{:for => "email"} Email
+				= f.text_field :email, autofocus: true, required: true, autocomplete: "email", class: 'appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'
+			.py-2{"data-controller" => "password-visibility"}
+				%label.py-2.text-xs.text-slate-600{:for => "password"} Password
+				.flex.items-center.justify-between
+					= f.password_field :password, {required: true, autocomplete: "current-password", "data-password-visibility-target" => "input", "spellcheck" => "false", class: 'appearance-none relative block w-full pl-3 pr-9 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'}
+					=button_tag "<i class='mr-2 fa fa-eye hidden', data-password-visibility-target = 'icon' ></i> <i class='mr-2 fa fa-eye-slash', data-password-visibility-target = 'icon' ></i>".html_safe, { class: "-ml-20 z-20 text-slate-600", "data-action" => "password-visibility#toggle", :role => "button", :type => "button", :tabindex => "0"}
+			.py-2{"data-controller" => "password-visibility"}
+				%label.py-2.text-xs.text-slate-600{:for => "password"} Confirm Password
+				.flex.items-center.justify-between
+					= f.password_field :password_confirmation, {required: true, autocomplete: "current-password", "data-password-visibility-target" => "input", "spellcheck" => "false", class: 'appearance-none relative block w-full pl-3 pr-9 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'}
+					=button_tag "<i class='mr-2 fa fa-eye hidden', data-password-visibility-target = 'icon' ></i> <i class='mr-2 fa fa-eye-slash', data-password-visibility-target = 'icon' ></i>".html_safe, { class: "-ml-20 z-20 text-slate-600", "data-action" => "password-visibility#toggle", :role => "button", :type => "button", :tabindex => "0"}
+
+			.mt-4
+				%button.w-full.text-white.bg-blue-700.hover:bg-blue-800.focus:ring-4.focus:outline-none.focus:ring-blue-300.font-medium.rounded-lg.text-sm.px-5.py-2.5.text-center.dark:bg-blue-600.dark:hover:bg-blue-700.dark:focus:ring-blue-800
+					Sign up
+			
+			.text-sm.font-medium.text-gray-500.mt-4
+				Already have account?
+				= link_to 'Login', new_user_session_path, class: "text-blue-700 hover:underline"

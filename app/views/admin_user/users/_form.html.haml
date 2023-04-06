@@ -11,21 +11,28 @@
 		.px-6.py-6
 			.grid.grid-cols-12.gap-2
 				.col-span-7
+					= form.label :name, class: 'text-xs text-slate-700'
+					= form.text_field :name, class: "block rounded-md border border-gray-200 outline-none px-2 py-2 mt-1 w-full text-sm", required: true
+				.col-span-7
+					= form.label :phone_number, class: 'text-xs text-slate-700'
+					= form.number_field :phone_number, class: "block rounded-md border border-gray-200 outline-none px-2 py-2 mt-1 w-full text-sm", required: true
+				.col-span-7
 					= form.label :email, class: 'text-xs text-slate-700'
 					= form.text_field :email, class: "block rounded-md border border-gray-200 outline-none px-2 py-2 mt-1 w-full text-sm", required: true
+				.col-span-7
+					= form.label :organization_name, class: 'text-xs text-slate-700'
+					= form.text_field :organization_name, class: "block rounded-md border border-gray-200 outline-none px-2 py-2 mt-1 w-full text-sm", required: true
+
 				- unless user.persisted?
 					.col-span-7
 						= form.label :password, "Password", class: 'text-xs text-slate-700'
 						= form.password_field :password, class: "block rounded-md border border-gray-200 outline-none px-2 py-2 mt-1 w-full text-sm", required: true
 
-			.flex.justify-between.items-start.mt-4{ data: { controller: 'switch' }}
-				.flex.items-center.gap-2
-					= form.label :is_admin, "Admin User?", class: 'form-check-label inline-block text-gray-800 font-semibold mr-1 text-sm'
-					.p-1.bg-slate-100.rounded
-						.switchable.text-slate-700.text-xs{"data-switch-target": "switchable"}= user.is_admin? ? "Active" : "Inactive"
-				= form.check_box :is_admin, {class: "form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white text-orange-400 focus:ring-orange-400 checked:bg-orange-400 checked:border-orange-400 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer", :type => "button", "data-action": "switch#switchActiveTargets"}
+			.flex.items-center.mt-4.gap-6{ data: { controller: 'switch' }}
+				= form.check_box :is_admin, {class: "form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white text-orange-400 focus:ring-orange-400 checked:bg-orange-400 checked:border-orange-400 focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain cursor-pointer", :type => "button", "data-action": "switch#switchActiveTargets"}
+				= form.label :is_admin, "Admin User?", class: 'form-check-label inline-block text-gray-800 font-semibold text-sm'
 
 		.flex-1
-		.p-4.bg-slate-100.flex.justify-end.gap-2.rounded-b-lg
+		.p-6.bg-slate-100.flex.justify-end.gap-2.rounded-b-lg
 			= button_tag 'Cancel', {type: "button", class: "px-4 py-2.5 cursor-pointer text-sm font-medium text-slate-600 bg-white rounded-md border border-slate-100 hover:bg-slate-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-slate-200", "data-action" => "click->modal#close", :role => "button", :tabindex => "0"}
 			= form.submit  class: " flex items-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"

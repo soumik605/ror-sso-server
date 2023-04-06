@@ -6,6 +6,9 @@ class User < ApplicationRecord
 
   has_many :access_grants, dependent: :delete_all
 
+  validates_presence_of :name, :email, :phone_number
+  validates_uniqueness_of :email, :phone_number
+
   def oauth_payload
     _hash = {
       provider: 'sso',
@@ -25,6 +28,18 @@ class User < ApplicationRecord
 
   def admin_user?
     self.try(:is_admin)
+  end
+
+  def user_oauth_clients
+    OauthClient.joins(:access_grants).where("access_grants.user_id = ?", self.id).uniq
+  end
+
+  def self.search_by_text(query)
+    where(<<-SQL, "%#{query.downcase}%", "%#{query.downcase}%", "%#{query.downcase}%")
+      users.email ilike ?
+      users.phone_number ilike ?
+      users.name ilike ?
+    SQL
   end
 
 end
