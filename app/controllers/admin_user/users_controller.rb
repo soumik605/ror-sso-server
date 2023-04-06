@@ -1,4 +1,5 @@
 class AdminUser::UsersController < ApplicationController
+  before_action :check_admin_user
   before_action :set_user, only: %i[ update destroy ]
 
   def index

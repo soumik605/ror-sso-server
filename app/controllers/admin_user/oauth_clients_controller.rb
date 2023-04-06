@@ -1,4 +1,5 @@
 class AdminUser::OauthClientsController < ApplicationController
+  before_action :check_admin_user
   before_action :set_oauth_client, only: %i[ update destroy ]
 
   def index

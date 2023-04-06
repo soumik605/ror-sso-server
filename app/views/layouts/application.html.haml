@@ -14,7 +14,10 @@
       -# = render 'layouts/top_nav'
     %main
       .flex.flex-col.md:flex-row.overflow-y-hidden
-        = render 'layouts/side_nav'
+        - if current_user.admin_user?
+          = render 'layouts/admin_side_nav'
+        - else
+          = render 'layouts/user_side_nav'
         %section.w-full
           #main.main-content.flex-auto.md:px-6.md:py-3.w-full.bg-slate-50.h-screen.overflow-y-auto
             = yield

@@ -1,6 +1,8 @@
 class OauthClient < ApplicationRecord
   before_validation :set_attributes
 
+  has_many :access_grants, dependent: :delete_all
+
   validates :name, :presence => true
 
   # Check whether a Client exists by app_id and app_secret

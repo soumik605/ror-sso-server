@@ -29,6 +29,22 @@
 					= form.text_field :search, placeholder: "Search by name", class: "block w-full px-4 py-3 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
 
 		= turbo_frame_tag "oauth_clients" do
-			.grid.grid-cols-12.gap-4.mt-4.mb-14
-				- @oauth_clients.uniq.each do |oauth_client|
-					= render oauth_client
+			.relative.overflow-x-auto.shadow-md.sm:rounded-lg.mt-1
+				%table.w-full.text-sm.text-left.text-gray-500
+					%thead.text-xs.text-gray-700.uppercase.bg-gray-50
+						%tr
+							%th.px-6.py-3{scope: "col"}
+								Name
+							%th.px-6.py-3{scope: "col"}
+								App ID
+							%th.px-6.py-3{scope: "col"}
+								App Secret
+					%tbody
+						- @oauth_clients.each do |client|
+							%tr.bg-white.border-b.hover:bg-gray-50
+								%th.px-6.py-4.font-medium.text-gray-900.whitespace-nowrap{scope: "row"}
+									= client.try(:name)
+								%td.px-6.py-4
+									= client.try(:app_id)
+								%td.px-6.py-4
+									= client.try(:app_secret)

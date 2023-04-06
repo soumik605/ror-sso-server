@@ -1,25 +1,23 @@
-%h1 Listing oauth_clients
+.flex.items-center.gap-4.my-4
+	.text-3xl.font-semibold Oauth Clients
 
-%table
-  %thead
-    %tr
-      %th Name
-      %th App
-      %th App secret
-      %th
-      %th
-      %th
 
-  %tbody
-    - @oauth_clients.each do |oauth_client|
-      %tr
-        %td= oauth_client.name
-        %td= oauth_client.app_id
-        %td= oauth_client.app_secret
-        %td= link_to 'Show', oauth_client
-        %td= link_to 'Edit', edit_oauth_client_path(oauth_client)
-        %td= link_to 'Destroy', oauth_client, method: :delete, data: { confirm: 'Are you sure?' }
-
-%br
-
-= link_to 'New Oauth client', new_oauth_client_path
+.relative.overflow-x-auto.shadow-md.sm:rounded-lg
+	%table.w-full.text-sm.text-left.text-gray-500
+		%thead.text-xs.text-gray-700.uppercase.bg-gray-50
+			%tr
+				%th.px-6.py-3{scope: "col"}
+					Name
+				%th.px-6.py-3{scope: "col"}
+					App ID
+				%th.px-6.py-3{scope: "col"}
+					App Secret
+		%tbody
+			- @oauth_clients.each do |client|
+				%tr.bg-white.border-b.hover:bg-gray-50
+					%th.px-6.py-4.font-medium.text-gray-900.whitespace-nowrap{scope: "row"}
+						= client.try(:name)
+					%td.px-6.py-4
+						= client.try(:app_id)
+					%td.px-6.py-4
+						= client.try(:app_secret)

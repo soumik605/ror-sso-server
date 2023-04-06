@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   
   get 'dashboard/index'
 
-  resources :oauth_clients
+  resources :oauth_clients, only: [:index]
   devise_for :users, sign_out_via: [:get, :delete]
 
   # SSO Provider routes

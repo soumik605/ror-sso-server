@@ -23,4 +23,8 @@ class User < ApplicationRecord
     return _hash
   end
 
+  def admin_user?
+    self.try(:is_admin)
+  end
+
 end
