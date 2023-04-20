@@ -39,12 +39,27 @@
 								App ID
 							%th.px-6.py-3{scope: "col"}
 								App Secret
+							%th.px-6.py-3{scope: "col"}
 					%tbody
 						- @oauth_clients.each do |client|
 							%tr.bg-white.border-b.hover:bg-gray-50
 								%th.px-6.py-4.font-medium.text-gray-900.whitespace-nowrap{scope: "row"}
-									= client.try(:name)
+									= link_to client.try(:name), client.try(:app_url)
 								%td.px-6.py-4
 									= client.try(:app_id)
 								%td.px-6.py-4
 									= client.try(:app_secret)
+								%td.px-6.py-4{"data-controller" => "modal", "data-modal-allow-background-close" => "true", "data-modal-disable-backdrop" => "false" }
+									%button{ "data-action" => "click->modal#open" }
+										%svg{fill: "none", height: "44", viewbox: "0 0 44 44", width: "44", xmlns: "http://www.w3.org/2000/svg"}
+											%circle{cx: "22", cy: "22", fill: "#FEF2E9", r: "22"}
+											%path{d: "M27.4994 20.1668L23.8327 16.5001M13.291 30.7084L16.3934 30.3637C16.7724 30.3216 16.9619 30.3006 17.139 30.2432C17.2962 30.1924 17.4458 30.1205 17.5837 30.0295C17.7391 29.927 17.8739 29.7922 18.1436 29.5225L30.2494 17.4168C31.2619 16.4043 31.2619 14.7626 30.2494 13.7501C29.2369 12.7376 27.5952 12.7376 26.5827 13.7501L14.4769 25.8559C14.2073 26.1255 14.0724 26.2604 13.9699 26.4158C13.879 26.5537 13.8071 26.7033 13.7562 26.8604C13.6989 27.0376 13.6778 27.2271 13.6357 27.6061L13.291 30.7084Z", stroke: "#F48020", "stroke-linecap" => "round", "stroke-linejoin" => "round", "stroke-width" => "2"}     
+									.hidden.fadeIn.fixed.inset-0.flex.items-center.justify-end.backdrop-brightness-50{"data-action" => "click->modal#closeBackground keyup@window->modal#closeWithKeyboard", "data-modal-target" => "container", :style => "z-index: 9999;"}
+										.h-screen.w-full.max-w-lg.relative
+											.bg-white.rounded-l-lg.h-full.overflow-y-auto.flex.flex-col.shadow
+												.px-4.py-3.border-b
+													%h3.text-xl.font-semibold.text-slate-800
+														Edit Oauth Client
+												= render 'admin_user/oauth_clients/form', oauth_client: client
+
+

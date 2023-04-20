@@ -13,7 +13,10 @@
 				.col-span-7
 					= form.label :name, class: 'text-xs text-slate-700'
 					= form.text_field :name, class: "block rounded-md border border-gray-200 outline-none px-2 py-2 mt-1 w-full text-sm", required: true
-				
+				.col-span-7
+					= form.label :app_url, class: 'text-xs text-slate-700'
+					= form.text_field :app_url, class: "block rounded-md border border-gray-200 outline-none px-2 py-2 mt-1 w-full text-sm", required: true
+
 		.flex-1
 		.p-4.bg-slate-100.flex.justify-end.gap-2.rounded-b-lg
 			= button_tag 'Cancel', {type: "button", class: "px-4 py-2.5 cursor-pointer text-sm font-medium text-slate-600 bg-white rounded-md border border-slate-100 hover:bg-slate-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-slate-200", "data-action" => "click->modal#close", :role => "button", :tabindex => "0"}

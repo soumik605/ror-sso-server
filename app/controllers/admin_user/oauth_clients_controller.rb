@@ -50,6 +50,6 @@ class AdminUser::OauthClientsController < ApplicationController
   end
 
   def oauth_client_params
-    params.require(:oauth_client).permit(:name, :app_id, :app_secret)
+    params.require(:oauth_client).permit(:name, :app_id, :app_secret, :app_url)
   end
 end

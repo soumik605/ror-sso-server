@@ -16,7 +16,7 @@
 			- @oauth_clients.each do |client|
 				%tr.bg-white.border-b.hover:bg-gray-50
 					%th.px-6.py-4.font-medium.text-gray-900.whitespace-nowrap{scope: "row"}
-						= client.try(:name)
+						= link_to client.try(:name), client.try(:app_url)
 					%td.px-6.py-4
 						= client.try(:app_id)
 					%td.px-6.py-4

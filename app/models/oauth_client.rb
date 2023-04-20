@@ -3,7 +3,7 @@ class OauthClient < ApplicationRecord
 
   has_many :access_grants, dependent: :delete_all
 
-  validates :name, :presence => true
+  validates_presence_of :name, :app_url
 
   # Check whether a Client exists by app_id and app_secret
   def self.authenticate(app_id, app_secret)
