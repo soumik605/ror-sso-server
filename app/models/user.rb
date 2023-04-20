@@ -6,8 +6,31 @@ class User < ApplicationRecord
 
   has_many :access_grants, dependent: :delete_all
 
-  validates_presence_of :name, :email, :phone_number
-  validates_uniqueness_of :email, :phone_number
+  enum :apps, { proteger_crm: 1, proteger_cmms: 2, proteger_analytics: 3  }
+
+  validates_presence_of :email
+  validates_uniqueness_of :email
+
+  cattr_accessor :form_steps do
+    %w[sign_up personal apps]
+  end
+
+  attr_accessor :form_step
+
+  with_options if: -> { required_for_step?('personal') } do |step|
+    step.validates :organization_name, presence: true
+    step.validates :name, presence: true
+    step.validates :phone_number, presence: true, uniqueness: true
+  end
+
+  with_options if: -> { required_for_step?('apps') } do |step|
+    step.validates :modules, presence: true
+  end
+
+
+  def form_step
+    @form_step ||= "sign_up"
+  end
 
   def oauth_payload
     _hash = {
@@ -37,9 +60,14 @@ class User < ApplicationRecord
   def self.search_by_text(query)
     where(<<-SQL, "%#{query.downcase}%", "%#{query.downcase}%", "%#{query.downcase}%")
       users.email ilike ?
-      users.phone_number ilike ?
-      users.name ilike ?
+      OR users.phone_number ilike ?
+      OR users.name ilike ?
     SQL
+  end
+
+  def required_for_step?(step)
+    return true if form_step.nil?
+    return true if form_steps.index(step.to_s) <= form_steps.index(form_step.to_s)
   end
 
 end

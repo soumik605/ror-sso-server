@@ -5,9 +5,10 @@ Rails.application.routes.draw do
   end
   
   get 'dashboard/index'
-
+  
+  resources :user_signup
   resources :oauth_clients, only: [:index]
-  devise_for :users, sign_out_via: [:get, :delete]
+  devise_for :users, controllers: { registrations: "registrations" }, sign_out_via: [:get, :delete]
 
   # SSO Provider routes
   match '/auth/sso/authorize' => 'auth#authorize', via: :all

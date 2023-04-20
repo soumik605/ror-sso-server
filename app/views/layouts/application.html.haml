@@ -14,7 +14,7 @@
       -# = render 'layouts/top_nav'
     %main
       .flex.flex-col.md:flex-row.overflow-y-hidden
-        - if current_user.admin_user?
+        - if current_user.present? and current_user.admin_user?
           = render 'layouts/admin_side_nav'
         - else
           = render 'layouts/user_side_nav'

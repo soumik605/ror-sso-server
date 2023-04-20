@@ -3,6 +3,7 @@ class AddColumnsToUsers < ActiveRecord::Migration[7.0]
     add_column :users, :is_admin, :boolean
     add_column :users, :organization_name, :string
     add_column :users, :name, :string
-    add_column :users, :phone_number, :integer
+    add_column :users, :phone_number, :string
+    add_column :users, :modules, :jsonb
   end
 end

@@ -1,0 +1,17 @@
+.flex.justify-center.w-full
+	.rounded-lg.border.border-slate-200.bg-white.p-4.pb-8.w-96
+		.text-2xl.text-center.font-semibold.pb-8.font-sans Add Modules
+		= render "devise/shared/error_messages", resource: @user
+		= form_for(@user, method: :put, url: wizard_path, class: 'mt-8 space-y-6') do |f|        
+			= f.hidden_field :id, value: @user.try(:id)
+			.grid.grid-cols-12.gap-4.w-full
+				= f.collection_check_boxes(:modules, User.apps, :last, :first) do |b|
+					.col-span-6.flex.items-center.bg-slate-100.hover:bg-slate-200.rounded.px-4.py-2
+						= b.label(class: "inline-block text-gray-800 mr-1 my-1 cursor-pointer text-xs flex items-center py-1") do
+							= b.check_box(class: "appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer")
+							.text-sm= b.object[0].try(:humanize)
+
+			.mt-8.flex.items-center.gap-4.justify-between
+				= link_to  "Back", user_signup_path('personal'), class: "w-full bg-slate-100 hover:bg-slate-200 focus:ring-4 focus:outline-none focus:ring-slate-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+				%button.w-full.text-white.bg-blue-700.hover:bg-blue-800.focus:ring-4.focus:outline-none.focus:ring-blue-300.font-medium.rounded-lg.text-sm.px-5.py-2.5.text-center.dark:bg-blue-600.dark:hover:bg-blue-700.dark:focus:ring-blue-800
+					Next
