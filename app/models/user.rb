@@ -5,6 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :access_grants, dependent: :delete_all
+  belongs_to :organization, optional: true
 
   enum :apps, { proteger_crm: 1, proteger_cmms: 2, proteger_analytics: 3  }
 
@@ -12,7 +13,7 @@ class User < ApplicationRecord
   validates_uniqueness_of :email
 
   cattr_accessor :form_steps do
-    %w[sign_up personal apps]
+    %w[sign_up personal organization apps]
   end
 
   attr_accessor :form_step
@@ -27,6 +28,13 @@ class User < ApplicationRecord
     step.validates :modules, presence: true
   end
 
+  def org_name
+		@org_name
+	end
+	
+	def org_name=(org_name)
+		@org_name = org_name
+	end
 
   def form_step
     @form_step ||= "sign_up"
